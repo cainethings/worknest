@@ -11,7 +11,7 @@ const PrimaryLayout = (props) => {
             id={props.pageContent?.meta?.pageID || "common-id"}
         >
             <Header />
-            <div className='page-conetnt'>
+            <div className='page-content'>
                 {
                     props.children
                 }
