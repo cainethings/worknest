@@ -8,7 +8,7 @@ const PrimaryHeader = () => {
 	return (
 		<header>
 			<div className='branding-col'>
-				<p>Work Nest</p>
+				<p className='content-heading'>WorkNest<span>by CaineThings</span></p>
 			</div>
 			<div className='nav-col'>
 				{/* <p>Work Nest</p> */}

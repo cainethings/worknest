@@ -1,0 +1,64 @@
+#home {
+    max-width: 600px;
+    margin: auto;
+    .hero {
+        height: 80vh;
+        padding: 30px;
+        padding-bottom: 50px;
+        background-color: #fff;
+        .section-title {
+            font-size: 30px;
+            margin: 0;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .instruction {
+            margin-bottom: 0px;
+        }
+
+        form {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            .custom-field {
+                .field-label {
+                    margin-bottom: 0;
+                    font-weight: 700;
+                    color: #555;
+                }
+
+                input {
+                    font-size: 20px;
+                    width: 100%;
+                    display: block;
+                    border-radius: 0px;
+                    border: 0px;
+                    border-bottom: 1px solid #666;
+                    height: 50px;
+                    outline: 0;
+                    padding: 0;
+
+                    &:before {
+                        content: "ssd";
+                    }
+                }
+            }
+            button{
+                // margin: auto;
+                margin-top: 30px;
+                border-radius: 0;
+                padding: 15px 50px;
+                border-radius: 5px;
+                text-align: center;
+                display: block;
+                background-color: #111;
+                color: #fff;
+                width: 100%;
+            }
+        }
+        .disclaimer{
+            font-size: 14px;
+            color: #999;
+        }
+    }
+}
