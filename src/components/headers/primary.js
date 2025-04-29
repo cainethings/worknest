@@ -7,7 +7,12 @@ import globalContent from '../../contents/global.json';
 const PrimaryHeader = () => {
 	return (
 		<header>
-
+			<div className='branding-col'>
+				<p>Work Nest</p>
+			</div>
+			<div className='nav-col'>
+				{/* <p>Work Nest</p> */}
+			</div>
 		</header>
 	);
 };

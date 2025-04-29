@@ -7,7 +7,7 @@ import pageContent from './content.json';
 const Home = () => {
   return (
     <Layout pageContent={pageContent}>
-      Hello
+      
     </Layout>
   );
 };
