@@ -1,0 +1,56 @@
+$fonts-url: "https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap";
+
+
+@import url($fonts-url);
+
+$font-family-primary-common: "Nunito Sans", sans-serif;
+$font-family-content-heading: "DM Serif Display", serif;
+$font-family-content-paragraph: "Source Serif 4", serif;
+
+* {
+    font-family: $font-family-primary-common;
+}
+
+
+.content-heading {
+    font-family: $font-family-content-heading;
+}
+
+.content-paragraph {
+    font-family: $font-family-content-paragraph;
+}
+
+/* Normal state */
+a {    
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {        
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* Active state (when clicked) */
+    &:active {   
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* Visited state (after being clicked) */
+    &:visited {        
+        color: inherit;
+        text-decoration: none;
+    }
+
+    /* Focused state (when the anchor is focused, typically when navigating with keyboard) */
+    &:focus {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    /* Disabled state (typically used with anchor tags that are non-interactive) */
+    &:disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}

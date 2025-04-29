@@ -1,0 +1,18 @@
+{
+    "meta": {
+        "pageTitle": ""
+    },
+    "components": {
+        "header": {
+            "primary": [
+                {
+                    "text": "Courses",
+                    "link": "/",
+                    "target": "_self",
+                    "enabled": true,
+                    "session": ""
+                }
+            ]
+        }
+    }
+}

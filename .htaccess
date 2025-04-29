@@ -1,0 +1,25 @@
+# Enable URL rewriting
+RewriteEngine On
+
+# Handle API requests and point them to the /server folder
+RewriteCond %{HTTP_HOST} ^api-stories\.cainethings\.com$ [NC]
+RewriteCond %{REQUEST_URI} !^/server/ [NC]
+RewriteRule ^(.*)$ /server/$1 [L]
+
+# Redirect everything else to the /dist folder, maintaining the URL structure
+RewriteCond %{REQUEST_URI} !^/dist/ [NC]
+RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|pdf|mp4|avi|mov)$ [NC]
+RewriteRule ^(.*)$ /dist/$1 [L]
+
+# If it's an existing file in /dist, serve it directly
+RewriteCond %{DOCUMENT_ROOT}/dist/$1 -f
+RewriteRule ^(.*)$ /dist/$1 [L]
+
+# If it's an existing directory in /dist, serve it directly
+RewriteCond %{DOCUMENT_ROOT}/dist/$1 -d
+RewriteRule ^(.*)$ /dist/$1 [L]
+
+# If it's not an existing file or directory, serve /dist/index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ /dist/index.html [L]

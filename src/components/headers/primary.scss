@@ -1,0 +1,72 @@
+header {
+    .primary-col {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ededed;
+        padding: 25px 0;
+
+        .branding {
+            p {
+                margin-bottom: 0;
+                font-weight: 800;
+                font-size: 20px
+            }
+        }
+
+        .navigation {
+            .hamburger-menu {}
+
+            ul {
+                display: block;
+
+                li {
+                    display: inline-block;
+                    margin: 0 15px;
+
+                    p {
+                        margin-bottom: 0;
+
+                        a {
+                            display: block;
+                            font-weight: 700;
+                        }
+                    }
+
+                    &:first-child {}
+
+                }
+            }
+        }
+
+        .tools {
+            ul {
+                margin: 0;
+                display: flex;
+                li {
+                    margin-left: 20px;
+                    a {
+                        display: block;
+                        height: 30px;
+                        width: 30px;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: 70%;
+                    }
+
+                    &.search {
+                        a {
+                            background-image: url('https://assets.cainethings.com/stories/assets/ui/loupe.png');
+                        }
+                    }
+
+                    &.profile {
+                        a {
+                            background-image: url('https://assets.cainethings.com/stories/assets/ui/user.png');
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
