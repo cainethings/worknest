@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import config from './config.json';
 import './library/styles/main.scss';
 
+import Login from './pages/account';
 import Home from './pages/home';
 import NotFound from './pages/errors/notFound';
 
@@ -18,7 +19,8 @@ const App = () => {
       ) : (
         <Routes>
           {/* Regular routes */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/home" element={<Home />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       )}
