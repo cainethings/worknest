@@ -8,6 +8,11 @@ import jsPDF from 'jspdf';
 const Home = () => {
   const [selectedMonth, setSelectedMonth] = useState('');
 
+  const handleLogout = () => {
+    localStorage.removeItem('userToken');
+    window.location.href = '/'; // Redirect to login page
+  };
+
   const handleDownload = async () => {
     if (!selectedMonth) {
       alert('Please select a month first.');
@@ -116,9 +121,9 @@ const Home = () => {
         </div>
 
         {/* Uncomment if logout needed */}
-        {/* <button onClick={handleLogout} className='logout-button'>
+        <button onClick={handleLogout} className='logout-button'>
           Logout
-        </button> */}
+        </button>
       </section>
     </Layout>
   );
