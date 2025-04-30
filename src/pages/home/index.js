@@ -58,8 +58,8 @@ const Home = () => {
 
   const handleTestDownload = () => {
     const doc = new jsPDF();
-
-    // Dummy hardcoded values
+  
+    // Dummy values
     const dummyMonth = 'April 2025';
     const dummyName = 'Caine Daniel';
     const dummyPhone = '9876543210';
@@ -67,7 +67,8 @@ const Home = () => {
     const dummySalary = 60000;
     const dummyDeductions = 8000;
     const dummyNetPay = 52000;
-
+  
+    // Build PDF content
     doc.setFontSize(16);
     doc.text(`Payslip - ${dummyMonth}`, 20, 20);
     doc.setFontSize(12);
@@ -77,8 +78,23 @@ const Home = () => {
     doc.text(`Salary: ₹${dummySalary}`, 20, 70);
     doc.text(`Deductions: ₹${dummyDeductions}`, 20, 80);
     doc.text(`Net Pay: ₹${dummyNetPay}`, 20, 90);
-
-    doc.save(`Payslip-${dummyMonth.replace(/\s+/g, '-')}.pdf`);
+  
+    // Generate as blob and open in new tab
+    const pdfBlob = doc.output('blob');
+    const blobUrl = URL.createObjectURL(pdfBlob);
+  
+    // Open in new tab (works on most mobile and desktop browsers)
+    const newWindow = window.open(blobUrl, '_blank');
+  
+    // Fallback if pop-up blocked: force download
+    if (!newWindow) {
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = `Payslip-${dummyMonth.replace(/\s+/g, '-')}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   };
 
   const getLast12Months = () => {
