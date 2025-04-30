@@ -33,7 +33,7 @@ const Login = () => {
     if (otp.length === 6) {
       // Simulate successful login
       localStorage.setItem('userToken', 'mock-token');
-      navigate('/dashboard');
+      navigate('/home');
     } else {
       alert('Enter a valid 6-digit OTP.');
     }
