@@ -1,16 +1,20 @@
 // src/Home.js
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Layout from '../../layouts/primary';
 import './home.scss';
 import pageContent from './content.json';
-import jsPDF from 'jspdf';
+import html2pdf from 'html2pdf.js';
+
+const formatCurrency = (amount) => `₹${amount.toLocaleString('en-IN')}`;
 
 const Home = () => {
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [payslipData, setPayslipData] = useState(null);
+  const payslipRef = useRef();
 
   const handleLogout = () => {
     localStorage.removeItem('userToken');
-    window.location.href = '/'; // Redirect to login page
+    window.location.href = '/';
   };
 
   const handleDownload = async () => {
@@ -19,7 +23,7 @@ const Home = () => {
       return;
     }
 
-    const phoneNumber = localStorage.getItem('userPhone'); // Set this at login
+    const phoneNumber = localStorage.getItem('userPhone');
     if (!phoneNumber) {
       alert('User phone number not found.');
       return;
@@ -28,73 +32,64 @@ const Home = () => {
     try {
       const response = await fetch(`https://your-server.com/api/payslip.php`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phoneNumber, month: selectedMonth })
       });
 
-      if (!response.ok) {
-        throw new Error('Server error while fetching payslip.');
-      }
+      if (!response.ok) throw new Error('Server error while fetching payslip.');
 
-      const payslipData = await response.json();
+      const data = await response.json();
+      setPayslipData({
+        name: data.name,
+        phone: phoneNumber,
+        month: selectedMonth,
+        designation: data.designation,
+        components: [
+          ['Salary', data.salary],
+          ['Deductions', -data.deductions],
+          ['Net Pay', data.netPay],
+        ]
+      });
 
-      const doc = new jsPDF();
-      doc.setFontSize(16);
-      doc.text(`Payslip - ${selectedMonth}`, 20, 20);
-      doc.setFontSize(12);
-      doc.text(`Name: ${payslipData.name}`, 20, 40);
-      doc.text(`Phone: ${phoneNumber}`, 20, 50);
-      doc.text(`Designation: ${payslipData.designation}`, 20, 60);
-      doc.text(`Salary: ₹${payslipData.salary}`, 20, 70);
-      doc.text(`Deductions: ₹${payslipData.deductions}`, 20, 80);
-      doc.text(`Net Pay: ₹${payslipData.netPay}`, 20, 90);
-      doc.save(`Payslip-${selectedMonth.replace(/\s+/g, '-')}.pdf`);
+      // Wait for state to update and DOM to render
+      setTimeout(() => {
+        html2pdf().set({
+          margin: 0.5,
+          filename: `Payslip-${selectedMonth.replace(/\s+/g, '-')}.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        }).from(payslipRef.current).save();
+      }, 100);
     } catch (error) {
       alert('Failed to download payslip: ' + error.message);
     }
   };
 
   const handleTestDownload = () => {
-    const doc = new jsPDF();
-  
-    // Dummy values
-    const dummyMonth = 'April 2025';
-    const dummyName = 'Caine Daniel';
-    const dummyPhone = '9876543210';
-    const dummyDesignation = 'Developer';
-    const dummySalary = 60000;
-    const dummyDeductions = 8000;
-    const dummyNetPay = 52000;
-  
-    // Build PDF content
-    doc.setFontSize(16);
-    doc.text(`Payslip - ${dummyMonth}`, 20, 20);
-    doc.setFontSize(12);
-    doc.text(`Name: ${dummyName}`, 20, 40);
-    doc.text(`Phone: ${dummyPhone}`, 20, 50);
-    doc.text(`Designation: ${dummyDesignation}`, 20, 60);
-    doc.text(`Salary: ₹${dummySalary}`, 20, 70);
-    doc.text(`Deductions: ₹${dummyDeductions}`, 20, 80);
-    doc.text(`Net Pay: ₹${dummyNetPay}`, 20, 90);
-  
-    // Generate as blob and open in new tab
-    const pdfBlob = doc.output('blob');
-    const blobUrl = URL.createObjectURL(pdfBlob);
-  
-    // Open in new tab (works on most mobile and desktop browsers)
-    const newWindow = window.open(blobUrl, '_blank');
-  
-    // Fallback if pop-up blocked: force download
-    if (!newWindow) {
-      const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = `Payslip-${dummyMonth.replace(/\s+/g, '-')}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
+    setPayslipData({
+      name: 'Caine Daniel',
+      phone: '9876543210',
+      month: 'April 2025',
+      designation: 'Developer',
+      components: [
+        ['Basic Salary', 450000],
+        ['HRA', 10000],
+        ['Bonus', 10000],
+        ['Deductions', -8000],
+        ['Net Pay', 52000],
+      ]
+    });
+
+    setTimeout(() => {
+      html2pdf().set({
+        margin: 0.5,
+        filename: `Payslip-April-2025.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      }).from(payslipRef.current).save();
+    }, 100);
   };
 
   const getLast12Months = () => {
@@ -136,10 +131,37 @@ const Home = () => {
           </button>
         </div>
 
-        {/* Uncomment if logout needed */}
         <button onClick={handleLogout} className='logout-button'>
           Logout
         </button>
+
+        {/* Hidden Payslip HTML for PDF generation */}
+        {payslipData && (
+          <div style={{ display: 'none' }}>
+            <div ref={payslipRef} className='payslip-preview'>
+              <h2>Payslip - {payslipData.month}</h2>
+              <p><strong>Name:</strong> {payslipData.name}</p>
+              <p><strong>Phone:</strong> {payslipData.phone}</p>
+              <p><strong>Designation:</strong> {payslipData.designation}</p>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }} border='1'>
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {payslipData.components.map(([label, value], index) => (
+                    <tr key={index}>
+                      <td>{label}</td>
+                      <td>{formatCurrency(value)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </section>
     </Layout>
   );
