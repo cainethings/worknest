@@ -13,7 +13,7 @@ const Login = () => {
 
   // Redirect if already logged in
   useEffect(() => {
-    const token = localStorage.getItem('userToken');
+    const token = localStorage.getItem('isLoggedIn');
     if (token) navigate('/home');
   }, [navigate]);
 
@@ -21,6 +21,8 @@ const Login = () => {
     e.preventDefault();
     if (phoneNumber.length === 10) {
       // Simulate OTP sending
+      localStorage.setItem('phoneNumber', phoneNumber);
+      localStorage.setItem('otp', 918273);
       console.log(`OTP sent to ${phoneNumber}`);
       setOtpSent(true);
     } else {
@@ -30,9 +32,10 @@ const Login = () => {
 
   const handleOtpSubmit = (e) => {
     e.preventDefault();
-    if (otp.length === 6) {
+    const otpSession = localStorage.getItem('otp');
+    if (otp.length === 6 && otpSession === otp) {
       // Simulate successful login
-      localStorage.setItem('userToken', 'mock-token');
+      localStorage.setItem('isLoggedIn', true);
       navigate('/home');
     } else {
       alert('Enter a valid 6-digit OTP.');
