@@ -52,7 +52,7 @@ const Home = () => {
         designation: data.designation,
         components: [
           ['Salary', data.salary],
-          ['Deductions', -data.deductions],
+          ['Deductions', data.deductions],
           ['Net Pay', data.netPay],
         ]
       });
@@ -142,8 +142,6 @@ const Home = () => {
 
     return months;
   };
-
-  console.log(payslipData)
 
   return (
     <Layout pageContent={pageContent}>

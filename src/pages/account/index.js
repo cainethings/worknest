@@ -17,30 +17,82 @@ const Login = () => {
     if (token) navigate('/home');
   }, [navigate]);
 
-  const handlePhoneSubmit = (e) => {
+  const handlePhoneSubmit = async (e) => {
     e.preventDefault();
-    if (phoneNumber.length === 10) {
-      // Simulate OTP sending
-      localStorage.setItem('phoneNumber', phoneNumber);
-      localStorage.setItem('otp', 918273);
-      console.log(`OTP sent to ${phoneNumber}`);
-      setOtpSent(true);
-    } else {
+
+    if (phoneNumber.length !== 10 || !/^\d{10}$/.test(phoneNumber)) {
       alert('Enter a valid 10-digit phone number.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8888/account.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          action: 'send_otp',
+          phone: phoneNumber,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        localStorage.setItem('phoneNumber', phoneNumber);
+        // Don't store OTP on frontend in production
+        console.log(`OTP sent to ${phoneNumber}: ${result.otp}`);
+        setOtpSent(true);
+      } else {
+        alert(result.message || 'Failed to send OTP');
+      }
+    } catch (error) {
+      console.error('Error contacting server:', error);
+      alert('Server error. Try again later.');
     }
   };
 
-  const handleOtpSubmit = (e) => {
+
+  const handleOtpSubmit = async (e) => {
     e.preventDefault();
-    const otpSession = localStorage.getItem('otp');
-    if (otp.length === 6 && otpSession === otp) {
-      // Simulate successful login
-      localStorage.setItem('isLoggedIn', true);
-      navigate('/home');
-    } else {
+
+    if (otp.length !== 6 || !/^\d{6}$/.test(otp)) {
       alert('Enter a valid 6-digit OTP.');
+      return;
+    }
+
+    const phoneNumber = localStorage.getItem('phoneNumber');
+
+    try {
+      const response = await fetch('http://localhost:8888/account.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          action: 'verify_otp',
+          phone: phoneNumber,
+          otp: otp,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        localStorage.setItem('isLoggedIn', true);
+        navigate('/home');
+      } else {
+        alert(result.message || 'OTP verification failed');
+      }
+    } catch (error) {
+      console.error('Server error:', error);
+      alert('Unable to verify OTP at the moment. Try again later.');
     }
   };
+
 
   return (
     <Layout pageContent={pageContent}>
