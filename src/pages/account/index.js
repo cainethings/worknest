@@ -26,7 +26,7 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch('https://api-stories.cainethings.com/account.php', {
+      const response = await fetch('https://api-worknest.cainethings.com/account.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ const Login = () => {
     const phoneNumber = localStorage.getItem('phoneNumber');
 
     try {
-      const response = await fetch('https://api-stories.cainethings.com/account.php', {
+      const response = await fetch('https://api-stories.worknest.com/account.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
