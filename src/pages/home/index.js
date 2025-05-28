@@ -1,5 +1,6 @@
 // src/Home.js
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../layouts/primary';
 import './home.scss';
 import pageContent from './content.json';
@@ -10,9 +11,16 @@ import HiddenData from './table.js';
 
 
 const Home = () => {
+  const navigate = useNavigate();
   const [selectedMonth, setSelectedMonth] = useState('');
   const [payslipData, setPayslipData] = useState(null);
   const payslipRef = useRef();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem('isLoggedIn');
+    if (!token) navigate('/');
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
@@ -21,58 +29,7 @@ const Home = () => {
     window.location.href = '/';
   };
 
-
-
-  const handleDownload = async () => {
-    if (!selectedMonth) {
-      alert('Please select a month first.');
-      return;
-    }
-
-    const phoneNumber = localStorage.getItem('userPhone');
-    if (!phoneNumber) {
-      alert('User phone number not found.');
-      return;
-    }
-
-    try {
-      const response = await fetch(`https://your-server.com/api/payslip.php`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phoneNumber, month: selectedMonth })
-      });
-
-      if (!response.ok) throw new Error('Server error while fetching payslip.');
-
-      const data = await response.json();
-      setPayslipData({
-        name: data.name,
-        phone: phoneNumber,
-        month: selectedMonth,
-        designation: data.designation,
-        components: [
-          ['Salary', data.salary],
-          ['Deductions', data.deductions],
-          ['Net Pay', data.netPay],
-        ]
-      });
-
-      // Wait for state to update and DOM to render
-      setTimeout(() => {
-        html2pdf().set({
-          margin: 0.5,
-          filename: `Payslip-${selectedMonth.replace(/\s+/g, '-')}.pdf`,
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        }).from(payslipRef.current).save();
-      }, 100);
-    } catch (error) {
-      alert('Failed to download payslip: ' + error.message);
-    }
-  };
-
-  const handleTestDownload = () => {
+  const handleDownload = () => {
     const phoneNumber = localStorage.getItem('phoneNumber');
     fetch('https://api-worknest.cainethings.com/getPayslip.php', {
       method: 'POST',
@@ -82,26 +39,25 @@ const Home = () => {
       body: new URLSearchParams({
         month: selectedMonth,
         phone: phoneNumber,
-
       }),
-    })
-      .then(async (response) => {
-        const data = await response.json(); // or response.text() depending on the API
-        const paySlipDataMain = data.data;
-        setPayslipData(paySlipDataMain);
-        console.log('here')
-        setTimeout(() => {
-          html2pdf().set({
-            margin: 1,
-            filename: `Payslip-April-2025.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-          }).from(payslipRef.current).save();
-        }, 100);
-      }).catch((error) => {
-        console.error('Fetch error:', error);
-      });
+    }).then(async (response) => {
+      const data = await response.json();
+      const paySlipDataMain = data.data;
+      setPayslipData(paySlipDataMain);
+      setTimeout(() => {
+        html2pdf().set({
+          margin: 1,
+          filename: `Payslip-April-2025.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        }).from(payslipRef.current).save().then(() => {
+          alert('Download completed successfully!');
+        });
+      }, 100);
+    }).catch((error) => {
+      console.error('Fetch error:', error);
+    });
   };
 
   const getMonthsFromStart = () => {
@@ -166,7 +122,7 @@ const Home = () => {
           <button className='download-button' onClick={handleDownload}>
             Download Payslip
           </button> */}
-          <button className='download-button' onClick={handleTestDownload}>
+          <button className='download-button' onClick={handleDownload}>
             Download PDF
           </button>
         </div>
