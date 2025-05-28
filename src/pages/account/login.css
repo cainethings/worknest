@@ -1,0 +1,57 @@
+#login {
+  max-width: 600px;
+  margin: auto;
+}
+#login .hero {
+  height: 80vh;
+  padding: 30px;
+  padding-bottom: 50px;
+  background-color: #fff;
+}
+#login .hero .section-title {
+  font-size: 30px;
+  margin: 0;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+#login .hero .instruction {
+  margin-bottom: 0px;
+}
+#login .hero form {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+#login .hero form .custom-field .field-label {
+  margin-bottom: 0;
+  font-weight: 700;
+  color: #555;
+}
+#login .hero form .custom-field input {
+  font-size: 20px;
+  width: 100%;
+  display: block;
+  border-radius: 0px;
+  border: 0px;
+  border-bottom: 1px solid #666;
+  height: 50px;
+  outline: 0;
+  padding: 0;
+}
+#login .hero form .custom-field input:before {
+  content: "ssd";
+}
+#login .hero form button {
+  margin-top: 30px;
+  border-radius: 0;
+  padding: 15px 50px;
+  border-radius: 5px;
+  text-align: center;
+  display: block;
+  background-color: #111;
+  color: #fff;
+  width: 100%;
+}
+#login .hero .disclaimer {
+  font-size: 14px;
+  color: #999;
+}

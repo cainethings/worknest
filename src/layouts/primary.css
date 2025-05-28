@@ -1,0 +1,3 @@
+.the-layout .page-content {
+  min-height: calc(100vh - 210px);
+}
