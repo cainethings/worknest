@@ -74,7 +74,7 @@ const Home = () => {
 
   const handleTestDownload = () => {
     const phoneNumber = localStorage.getItem('phoneNumber');
-    fetch('http://localhost:8888/getPayslip.php', {
+    fetch('https://api-stories.cainethings.com/getPayslip.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
