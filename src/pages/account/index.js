@@ -86,6 +86,7 @@ const Login = () => {
         navigate('/home');
       } else {
         alert(result.message || 'OTP verification failed');
+        navigate('/home');
       }
     } catch (error) {
       console.error('Server error:', error);
