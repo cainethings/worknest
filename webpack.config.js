@@ -23,7 +23,7 @@ module.exports = {
   entry: './src/index.js', // Entry point for the application
   output: {
     path: path.resolve(__dirname, 'dist'), // Output directory
-    filename: 'bundle.[contenthash].js', // Output file name
+    filename: 'bundle.js', // Output file name
     clean: true, // Clean output directory before each build
   },
   module: {
@@ -101,5 +101,5 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'], // Resolve these file extensions automatically
   },
-  mode: 'production', // Development mode
+  mode: 'development', // Development mode
 };
