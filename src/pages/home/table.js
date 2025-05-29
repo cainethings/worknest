@@ -2,7 +2,7 @@ import React from 'react';
 import banner from '../../assets/images/banner.png';
 const HiddenData = (props) => {
     const formatCurrency = (amount) =>
-        `₹${Number(amount).toLocaleString('en-IN', {
+        `${Number(amount).toLocaleString('en-IN', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         })}`;
@@ -47,7 +47,7 @@ const HiddenData = (props) => {
                 </tr>
                 <tr>
                     <td style={{ padding: "5px" }}>NAME</td>
-                    <td style={{ padding: "5px", fontWeight: "bold" }} colSpan={2}>{payslipData["FULL NAME"]}</td>
+                    <td style={{ padding: "5px", fontWeight: "bold" }} colSpan={2}>Mr. {payslipData["FULL NAME"]}</td>
                     <td style={{ padding: "5px", fontWeight: "bold" }}>{payslipData["Designation"]}</td>
                 </tr>
                 <tr>
