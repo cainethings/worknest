@@ -17,9 +17,7 @@ const PrimaryFooter = () => {
             <button onClick={handleLogout} className='logout-button'>
                 Logout
             </button>
-            <p>
-                Version: {typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev'}-{typeof __BUILD_DATE__ !== 'undefined' ? new Date(__BUILD_DATE__).toLocaleString() : 'now'}
-            </p>
+            <p>Version: {typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev'}</p>
         </footer>
     );
 };
