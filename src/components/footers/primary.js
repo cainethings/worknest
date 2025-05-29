@@ -1,6 +1,7 @@
 // src/About.js
 import React from 'react';
 import './primary.scss';
+import pkg from '../../../package.json';
 
 import globalContent from '../../contents/global.json';
 
@@ -16,14 +17,14 @@ const PrimaryFooter = () => {
     if (!token) showLogout = false;
     return (
         <footer>
-            {
-                showLogout ? (
-                    <button onClick={handleLogout} className='logout-button'>
-                        Logout
-                    </button>
-                ) : ""
-            }
-
+            {showLogout && (
+                <button onClick={handleLogout} className='logout-button'>
+                    Logout
+                </button>
+            )}
+            <div className='app-version'>
+                Version: {pkg.version}
+            </div>
         </footer>
     );
 };
