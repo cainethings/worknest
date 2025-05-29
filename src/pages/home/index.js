@@ -22,13 +22,6 @@ const Home = () => {
     if (!token) navigate('/');
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('phoneNumber');
-    localStorage.removeItem('otp');
-    window.location.href = '/';
-  };
-
   const handleDownload = () => {
     const phoneNumber = localStorage.getItem('phoneNumber');
     fetch('https://api-worknest.cainethings.com/getPayslip.php', {
@@ -125,12 +118,7 @@ const Home = () => {
           <button className='download-button' onClick={handleDownload}>
             Download PDF
           </button>
-        </div>
-        <br /><br /><br /><br /><br />
-        <button onClick={handleLogout} className='logout-button'>
-          Logout
-        </button>
-
+        </div>        
         {/* Hidden Payslip HTML for PDF generation */}
         {payslipData && (
           <div style={{ display: 'none' }}>
