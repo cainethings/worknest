@@ -1,12 +1,11 @@
-#home {
+#login {
     max-width: 600px;
     margin: auto;
-
     .hero {
+        height: 80vh;
         padding: 30px;
         padding-bottom: 50px;
         background-color: #fff;
-
         .section-title {
             font-size: 30px;
             margin: 0;
@@ -18,25 +17,9 @@
             margin-bottom: 0px;
         }
 
-        .logout-button {
-            display: block;
-            position: absolute;
-            bottom: 20px;
-            background-color: transparent;
-            border: 0;
-            text-align: center;
-            margin: auto;
-            left: 0;
-            right: 0;
-            margin: auto;
-            font-size: 12px;
-            color: #3f51b5;
-        }
-
         form {
             margin-top: 30px;
             margin-bottom: 30px;
-
             .custom-field {
                 .field-label {
                     margin-bottom: 0;
@@ -60,8 +43,7 @@
                     }
                 }
             }
-
-            button {
+            button{
                 // margin: auto;
                 margin-top: 30px;
                 border-radius: 0;
@@ -74,47 +56,9 @@
                 width: 100%;
             }
         }
-
-        .disclaimer {
+        .disclaimer{
             font-size: 14px;
             color: #999;
-        }
-
-        table {
-            margin-top: 50px;
-
-            tr {
-                th {
-                    text-align: center;
-
-                    img {
-                        width: 100%;
-                    }
-                }
-
-                &.banner-row {
-                    th {}
-                }
-            }
-        }
-
-        .dropdown-container {
-            select {
-                display: block;
-                width: 100%;
-                height: 50px;
-                margin-bottom: 20px;
-                margin-top: 20px;
-            }
-
-            button {
-                width: 100%;
-                height: 30px;
-                background-color: #000;
-                border: 0;
-                color: #fff;
-                height: 50px;
-            }
         }
     }
 }

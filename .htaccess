@@ -2,7 +2,7 @@
 RewriteEngine On
 
 # Handle API requests and point them to the /server folder
-RewriteCond %{HTTP_HOST} ^api-stories\.cainethings\.com$ [NC]
+RewriteCond %{HTTP_HOST} ^api-worknest\.cainethings\.com$ [NC]
 RewriteCond %{REQUEST_URI} !^/server/ [NC]
 RewriteRule ^(.*)$ /server/$1 [L]
 

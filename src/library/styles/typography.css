@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap");
+* {
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 16px;
+}
+
+.content-heading {
+  font-family: "DM Serif Display", serif;
+}
+
+.content-paragraph {
+  font-family: "Source Serif 4", serif;
+}
+
+/* Normal state */
+a {
+  text-decoration: none;
+  color: inherit;
+  /* Active state (when clicked) */
+  /* Visited state (after being clicked) */
+  /* Focused state (when the anchor is focused, typically when navigating with keyboard) */
+  /* Disabled state (typically used with anchor tags that are non-interactive) */
+}
+a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+a:focus {
+  color: inherit;
+  text-decoration: none;
+}
+a:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
