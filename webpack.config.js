@@ -3,6 +3,22 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const packageJson = require('./package.json');
 
+function getFormattedTimestamp() {
+  const now = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+
+  return [
+    pad(now.getMonth() + 1),
+    pad(now.getDate()),
+    now.getFullYear(),
+    pad(now.getHours()),
+    pad(now.getMinutes()),
+    pad(now.getSeconds())
+  ].join('');
+}
+
+const buildVersion = `${packageJson.version}-${getFormattedTimestamp()}`;
+
 module.exports = {
   entry: './src/index.js', // Entry point for the application
   output: {
@@ -73,8 +89,7 @@ module.exports = {
       template: './public/index.html', // Template file
     }),
     new webpack.DefinePlugin({
-      __APP_VERSION__: JSON.stringify(packageJson.version),
-      __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
+      __APP_VERSION__: JSON.stringify(buildVersion),
     }),
   ],
   devServer: {
