@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const packageJson = require('./package.json');
 
 module.exports = {
   entry: './src/index.js', // Entry point for the application
@@ -69,6 +71,10 @@ module.exports = {
     // Plugin to generate HTML file and inject the bundle
     new HtmlWebpackPlugin({
       template: './public/index.html', // Template file
+    }),
+    new webpack.DefinePlugin({
+      __APP_VERSION__: JSON.stringify(packageJson.version),
+      __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
     }),
   ],
   devServer: {
