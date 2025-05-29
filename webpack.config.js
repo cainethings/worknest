@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const packageJson = require('./package.json');
+const CompressionPlugin = require('compression-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 function getFormattedTimestamp() {
   const now = new Date();
@@ -20,6 +22,11 @@ function getFormattedTimestamp() {
 const buildVersion = `${packageJson.version}-${getFormattedTimestamp()}`;
 
 module.exports = {
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   entry: './src/index.js', // Entry point for the application
   output: {
     path: path.resolve(__dirname, 'dist'), // Output directory
@@ -36,22 +43,15 @@ module.exports = {
           loader: "babel-loader", // Use Babel loader to transpile files
           options: {
             presets: [
-              "@babel/preset-env", // Transpile modern JavaScript
-              "@babel/preset-react" // Transpile JSX
-            ],
-          },
-        },
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              '@babel/preset-env', // Transpile modern JavaScript
-              '@babel/preset-react', // Transpile JSX
-            ],
+              [
+                "@babel/preset-env",
+                {
+                  useBuiltIns: "usage",
+                  corejs: 3,
+                },
+              ],
+              "@babel/preset-react",
+            ]
           },
         },
       },
@@ -84,22 +84,33 @@ module.exports = {
     ],
   },
   plugins: [
-    // Plugin to generate HTML file and inject the bundle
     new HtmlWebpackPlugin({
-      template: './public/index.html', // Template file
+      template: './public/index.html',
     }),
     new webpack.DefinePlugin({
       __APP_VERSION__: JSON.stringify(buildVersion),
     }),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8,
+    }),
+    new BundleAnalyzerPlugin(),
   ],
   devServer: {
     static: path.join(__dirname, 'dist'), // Serve files from 'dist' folder
     compress: true, // Enable gzip compression
-    port: 3001, // Server port
+    port: 3002, // Server port
     historyApiFallback: true, // Support client-side routing
   },
   resolve: {
     extensions: ['.js', '.jsx'], // Resolve these file extensions automatically
   },
-  mode: 'production', // Development mode
+  mode: 'production', // Development mode,
+  performance: {
+    hints: 'warning',
+    maxAssetSize: 1012000, // 500 KiB
+    maxEntrypointSize: 1012000,
+  },
 };
