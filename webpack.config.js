@@ -1,11 +1,29 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const packageJson = require('./package.json');
+
+function getFormattedTimestamp() {
+  const now = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+
+  return [
+    pad(now.getMonth() + 1),
+    pad(now.getDate()),
+    now.getFullYear(),
+    pad(now.getHours()),
+    pad(now.getMinutes()),
+    pad(now.getSeconds())
+  ].join('');
+}
+
+const buildVersion = `${packageJson.version}-${getFormattedTimestamp()}`;
 
 module.exports = {
   entry: './src/index.js', // Entry point for the application
   output: {
     path: path.resolve(__dirname, 'dist'), // Output directory
-    filename: 'bundle.js', // Output file name
+    filename: 'bundle.[contenthash].js', // Output file name
     clean: true, // Clean output directory before each build
   },
   module: {
@@ -70,6 +88,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html', // Template file
     }),
+    new webpack.DefinePlugin({
+      __APP_VERSION__: JSON.stringify(buildVersion),
+    }),
   ],
   devServer: {
     static: path.join(__dirname, 'dist'), // Serve files from 'dist' folder
@@ -80,5 +101,5 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'], // Resolve these file extensions automatically
   },
-  mode: 'development', // Development mode
+  mode: 'production', // Development mode
 };
