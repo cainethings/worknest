@@ -17,17 +17,10 @@ const Home = () => {
   const payslipRef = useRef();
 
   // Redirect if already logged in
-  useEffect(() => {
-    const token = localStorage.getItem('isLoggedIn');
-    if (!token) navigate('/');
-  }, [navigate]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('phoneNumber');
-    localStorage.removeItem('otp');
-    window.location.href = '/';
-  };
+  // useEffect(() => {
+  //   const token = localStorage.getItem('isLoggedIn');
+  //   if (!token) navigate('/');
+  // }, [navigate]);
 
   const handleDownload = () => {
     const phoneNumber = localStorage.getItem('phoneNumber');
@@ -126,10 +119,6 @@ const Home = () => {
             Download PDF
           </button>
         </div>
-        <br /><br /><br /><br /><br />
-        <button onClick={handleLogout} className='logout-button'>
-          Logout
-        </button>
 
         {/* Hidden Payslip HTML for PDF generation */}
         {payslipData && (
