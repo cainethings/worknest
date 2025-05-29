@@ -4,7 +4,8 @@ footer {
     padding: 1rem;
     font-size: 0.8rem;
     color: #888;
-
+    flex-direction: column;
+    
     .logout-button {
         display: block;
         background-color: transparent;
