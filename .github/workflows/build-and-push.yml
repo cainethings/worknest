@@ -3,7 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - 'stage-worknest'  # Trigger on push to the 'stage-compass' branch
+      - 'stage'  # Trigger on push to the 'stage-compass' branch
       - 'publish'        # Trigger on push to the 'publish' branch
 
 jobs:
