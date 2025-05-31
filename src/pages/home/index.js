@@ -14,17 +14,64 @@ const Home = () => {
   const navigate = useNavigate();
   const [selectedMonth, setSelectedMonth] = useState('');
   const [payslipData, setPayslipData] = useState(null);
+  const [months, setMonths] = useState([]);
+  const [error, setError] = useState(null);
   const payslipRef = useRef();
+
+
+  const getApiBaseUrl = () => {
+    if (window.location.hostname === 'localhost') {
+      return 'http://localhost:8888';
+    } else {
+      return 'https://api-worknest.cainethings.com';
+    }
+  };
 
   // Redirect if already logged in
   useEffect(() => {
     const token = localStorage.getItem('isLoggedIn');
-    if (!token) navigate('/');
+    if (!token) {
+      navigate('/');
+      return;
+    }
+
+    const phoneNumber = localStorage.getItem('phoneNumber');
+    if (!phoneNumber) {
+      setError('Phone number not found in localStorage');
+      return;
+    }
+
+    const getList = `${getApiBaseUrl()}/getAvailableMonths.php`;
+    const fetchMonths = async () => {
+      try {
+        const response = await fetch(getList, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ phone: phoneNumber }),
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          setMonths(data.files);
+        } else {
+          setError(data.message || 'No records found for this phone number');
+          setMonths([]);
+        }
+      } catch (err) {
+        setError('Error fetching months: ' + err.message);
+        setMonths([]);
+      }
+    };
+
+    fetchMonths();
   }, [navigate]);
 
   const handleDownload = () => {
+    const getPaySlip = `${getApiBaseUrl()}/getPayslip.php`;
     const phoneNumber = localStorage.getItem('phoneNumber');
-    fetch('https://api-worknest.cainethings.com/getPayslip.php', {
+    fetch(getPaySlip, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -38,6 +85,9 @@ const Home = () => {
       const paySlipDataMain = data.data;
       setPayslipData(paySlipDataMain);
       setTimeout(() => {
+        if (!data.success) {
+          alert('Error: ' + data.message);
+        }
         html2pdf().set({
           margin: 1,
           filename: `Payslip-April-2025.pdf`,
@@ -54,6 +104,37 @@ const Home = () => {
   };
 
   const getMonthsFromStart = () => {
+    const phoneNumber = localStorage.getItem('phoneNumber');
+    fetch('https://api-worknest.cainethings.com/getPayslip.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        month: selectedMonth,
+        phone: phoneNumber,
+      }),
+    }).then(async (response) => {
+      const data = await response.json();
+      const paySlipDataMain = data.data;
+      setPayslipData(paySlipDataMain);
+      setTimeout(() => {
+        if (!data.success) {
+          alert('Error: ' + data.message);
+        }
+        html2pdf().set({
+          margin: 1,
+          filename: `Payslip-April-2025.pdf`,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        }).from(payslipRef.current).save().then(() => {
+          alert('Download completed successfully!');
+        });
+      }, 100);
+    }).catch((error) => {
+      console.error('Fetch error:', error);
+    });
     const startMonth = 0; // April (0-indexed)
     const startYear = 2025;
 
@@ -105,11 +186,15 @@ const Home = () => {
             onChange={(e) => setSelectedMonth(e.target.value)}
           >
             <option value=''>-- Select Month --</option>
-            {getMonthsFromStart().map((month) => (
-              <option key={month} value={month}>
-                {month}
-              </option>
-            ))}
+            {months.map((fileName) => {
+              // Extract the month-year part from the filename by removing '.csv'
+              const monthLabel = fileName.replace('.csv', '');
+              return (
+                <option key={fileName} value={monthLabel}>
+                  {monthLabel}
+                </option>
+              );
+            })}
           </select>
           {/* 
           <button className='download-button' onClick={handleDownload}>
@@ -118,7 +203,7 @@ const Home = () => {
           <button className='download-button' onClick={handleDownload}>
             Download PDF
           </button>
-        </div>        
+        </div>
         {/* Hidden Payslip HTML for PDF generation */}
         {payslipData && (
           <div style={{ display: 'none' }}>
