@@ -54,7 +54,7 @@ const Home = () => {
   };
 
   const getMonthsFromStart = () => {
-    const startMonth = 3; // April (0-indexed)
+    const startMonth = 0; // April (0-indexed)
     const startYear = 2025;
 
     const now = new Date();
