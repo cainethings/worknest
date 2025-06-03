@@ -90,7 +90,7 @@ const Home = () => {
         }
         html2pdf().set({
           margin: 1,
-          filename: `Payslip-April-2025.pdf`,
+          filename: `Payslip-${selectedMonth}.pdf`,
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: { scale: 2 },
           jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
