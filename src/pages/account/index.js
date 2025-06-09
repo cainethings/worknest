@@ -26,7 +26,7 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch('https://api-worknest.cainethings.com/account.php', {
+      const response = await fetch('https://api-worknest.cainethings.com/account.php', {      
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,8 +43,10 @@ const Login = () => {
       if (result.success) {
         localStorage.setItem('phoneNumber', phoneNumber);
         // Don't store OTP on frontend in production
-        console.log(`OTP sent to ${phoneNumber}: ${result.otp}`);
-        setOtpSent(true);
+        // console.log(`OTP sent to ${phoneNumber}: ${result.otp}`);
+        localStorage.setItem('isLoggedIn', true);
+        navigate('/home');
+        // setOtpSent(true);
       } else {
         alert(result.message || 'Failed to send OTP');
       }
@@ -114,7 +116,7 @@ const Login = () => {
                   onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/, ''))}
                 />
               </div>
-              <button type='submit'>Get OTP</button>
+              <button type='submit'>Login</button>
             </form>
           </>
         ) : (
