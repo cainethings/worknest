@@ -17,6 +17,14 @@ const Login = () => {
     if (token) navigate('/home');
   }, [navigate]);
 
+    const getApiBaseUrl = () => {
+    if (window.location.hostname === 'localhost') {
+      return 'http://localhost:8888';
+    } else {
+      return 'https://api-worknest.cainethings.com';
+    }
+  };
+
   const handlePhoneSubmit = async (e) => {
     e.preventDefault();
 
@@ -26,7 +34,7 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch('https://api-worknest.cainethings.com/account.php', {      
+      const response = await fetch(`${getApiBaseUrl()}/account.php`, {      
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +76,7 @@ const Login = () => {
     const phoneNumber = localStorage.getItem('phoneNumber');
 
     try {
-      const response = await fetch('https://api-worknest.cainethings.com/account.php', {
+      const response = await fetch(`${getApiBaseUrl()}/account.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

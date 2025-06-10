@@ -6,24 +6,38 @@ const HiddenData = (props) => {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         })}`;
-    const excelSerialToDateString = (serialStr) => {
-        if (!serialStr) return "";
+    const excelSerialToDateString = (value) => {
+        if (!value) return "";
 
-        const serial = parseFloat(serialStr.replace(/,/g, ""));
-        if (isNaN(serial)) return serialStr;
+        // Case 1: Try direct date parsing (for strings like "04-Jan-21")
+        const parsedDate = new Date(value);
+        if (!isNaN(parsedDate)) {
+            return parsedDate.toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric"
+            });
+        }
 
-        const excelEpoch = new Date(1900, 0, 1);
-        const days = Math.floor(serial) - 2;
-        const date = new Date(excelEpoch.getTime() + days * 24 * 60 * 60 * 1000);
+        // Case 2: Try Excel serial number conversion
+        const serial = parseFloat(value.toString().replace(/,/g, ""));
+        if (!isNaN(serial)) {
+            const excelEpoch = new Date(1899, 11, 30); // Excel's epoch
+            const date = new Date(excelEpoch.getTime() + serial * 86400000);
 
-        return date.toLocaleDateString("en-GB", {
-            day: "2-digit",
-            month: "long",
-            year: "numeric"
-        }); // e.g. "14 February 2018"
-    }
+            return date.toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric"
+            });
+        }
+
+        // If all fails, return original
+        return value;
+    };
+
     const payslipData = props.payslipData;
-    const selectedMonth = props.selectedMonth;
+    const selectedMonth = props.selectedMonth;    
     return (
         <table style={{ width: '100%', borderCollapse: 'collapse' }} border='1'>
             <thead>

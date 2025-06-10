@@ -105,7 +105,7 @@ const Home = () => {
 
   const getMonthsFromStart = () => {
     const phoneNumber = localStorage.getItem('phoneNumber');
-    fetch('https://api-worknest.cainethings.com/getPayslip.php', {
+    fetch(`${getApiBaseUrl()}/getPayslip.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
