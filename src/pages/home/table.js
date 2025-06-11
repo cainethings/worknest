@@ -1,11 +1,12 @@
 import React from 'react';
 import banner from '../../assets/images/banner.png';
 const HiddenData = (props) => {
-    const formatCurrency = (amount) =>
-        `${Number(amount).toLocaleString('en-IN', {
+    const formatCurrency = (amount) => {
+        return `${Number(amount).toLocaleString('en-IN', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         })}`;
+    }
     const excelSerialToDateString = (value) => {
         if (!value) return "";
 
@@ -37,7 +38,7 @@ const HiddenData = (props) => {
     };
 
     const payslipData = props.payslipData;
-    const selectedMonth = props.selectedMonth;    
+    const selectedMonth = props.selectedMonth;   
     return (
         <table style={{ width: '100%', borderCollapse: 'collapse' }} border='1'>
             <thead>
@@ -118,13 +119,13 @@ const HiddenData = (props) => {
                     <td style={{ padding: "5px" }}>{payslipData["F/D"] === "D" ? "H Allowance" : "Proj Allowance"}</td>
                     <td style={{ padding: "5px", textAlign: 'right' }}>{payslipData["F/D"] === "D" ? payslipData["H Allowance"] === "" ? "0.00" : payslipData["H Allowance"] : payslipData["Proj Allowance"] === "" ? "0.00" : payslipData["Proj Allowance"]}</td>
                     <td style={{ padding: "5px" }}>Advance</td>
-                    <td style={{ padding: "5px", textAlign: 'right' }}>{payslipData["Advance"] === "" ? "0.00" : formatCurrency(parseFloat(payslipData["Advance"]).toFixed(2))}</td>
+                    <td style={{ padding: "5px", textAlign: 'right' }}>{payslipData["Advance"] === "" ? "0.00" : payslipData["Advance"]}</td>
                 </tr>
                 <tr>
                     <td style={{ padding: "5px" }}>{payslipData["F/D"] === "D" ? "S Allowance" : "V Allowance"}</td>
                     <td style={{ padding: "5px", textAlign: 'right' }}>{payslipData["F/D"] === "D" ? payslipData["S Allowance"] === "" ? "0.00" : payslipData["S Allowance"] : payslipData["V Allowance"] === "" ? "0.00" : payslipData["V Allowance"]}</td>
                     <td style={{ padding: "5px" }}>TDS</td>
-                    <td style={{ padding: "5px", textAlign: 'right' }}>{payslipData["TDS"] === "" ? "0.00" : formatCurrency(parseFloat(payslipData["TDS"]).toFixed(2))}</td>
+                    <td style={{ padding: "5px", textAlign: 'right' }}>{payslipData["TDS"] === "" ? "0.00" : payslipData["TDS"]}</td>
                 </tr>
                 <tr>
                     <td style={{ padding: "5px" }}>Bonus @ 8.33%</td>
