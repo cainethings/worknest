@@ -7,6 +7,7 @@ import pageContent from './content.json';
 import html2pdf from 'html2pdf.js';
 
 import HiddenData from './table.js';
+import { getApiBaseUrl } from '../../api';
 
 
 
@@ -19,13 +20,7 @@ const Home = () => {
   const payslipRef = useRef();
 
 
-  const getApiBaseUrl = () => {
-    if (window.location.hostname === 'localhost') {
-      return 'http://localhost:8888';
-    } else {
-      return 'https://api-worknest.cainethings.com';
-    }
-  };
+
 
   // Redirect if already logged in
   useEffect(() => {
@@ -74,9 +69,9 @@ const Home = () => {
     fetch(getPaySlip, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
-      body: new URLSearchParams({
+      body: JSON.stringify({
         month: selectedMonth,
         phone: phoneNumber,
       }),
@@ -105,12 +100,12 @@ const Home = () => {
 
   const getMonthsFromStart = () => {
     const phoneNumber = localStorage.getItem('phoneNumber');
-    fetch('https://api-worknest.cainethings.com/getPayslip.php', {
+    fetch(`${getApiBaseUrl()}/getPayslip.php`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
-      body: new URLSearchParams({
+      body: JSON.stringify({
         month: selectedMonth,
         phone: phoneNumber,
       }),

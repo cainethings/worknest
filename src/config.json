@@ -1,3 +1,8 @@
 {
-    "environment": "production"
+  "environment": "production",
+  "apiBaseUrls": {
+    "production": "https://api-worknest.cainethings.com",
+    "staging": "https://stage-api-worknest.cainethings.com",
+    "local": "http://localhost:8888"
+  }
 }
