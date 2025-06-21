@@ -1,110 +1,67 @@
-# Compass Repository
+# WorkNest Front-End
 
-Welcome to the **Compass** repository! This README provides detailed instructions to help team members work through the repo, maintain code quality, and adhere to standards. Please read carefully before contributing.
+WorkNest is a simple payroll viewer built with React. It allows employees to register, log in and download PDF payslips. The app communicates with the PHP based [WorkNest API](https://github.com/cainethings/api-worknest).
 
-## Repository Details
-- **Production Branch:** `publish`
-- **Release Branch:** `dev`
-- **Staging Branch:** `stage-compass`
+## Features
 
-### Demo Pages
-- **DEMO PAGE 1:** [https://stage-compass.cainethings.com/demo-page-1](https://stage-compass.cainethings.com/demo-page-1)
-- **DEMO PAGE 2:** [https://stage-compass.cainethings.com/dwemo-page-2](https://stage-compass.cainethings.com/dwemo-page-2)
+- **User Registration** – create a login using phone number and password.
+- **Login** – authenticate via `/login.php` and store a session.
+- **Payslip Viewer** – list available months and fetch payslip data.
+- **PDF Download** – convert the payslip table to a PDF using `html2pdf.js`.
+- **Environment Detection** – automatically selects the correct API base URL for production, staging and local development.
 
-## Route of Code to Production
-1. **Publish Branch:** `publish` is the branch that will be hosted on the main website.
-2. **Finalized Code:** Finalized `dev` code is merged into `publish` when it is ready.
-3. **Feature Development:** Developers should create a branch from `dev` and merge it back into `dev` after completing their changes.
-4. **Staging Changes:** To stage a change:
-   - Merge the feature branch into `dev`.
-   - Merge `dev` into `stage-compass`.
-5. **Publishing Schedule:** Publishing happens only on planned days.
+## Running Locally
 
-## Branching Strategy
-### Creating a Feature Branch
-1. Switch to the `dev` branch:
+1. Install dependencies:
    ```bash
-   git checkout dev
-   git pull origin dev
-   git checkout -b [feature-branch-name]
+   npm install
    ```
-2. Perform your changes locally.
-
-3. Check your changes:
+2. Start the development server on `http://localhost:3001`:
    ```bash
-   git status
-   git add .
-   git commit -m "commit comment"
-   git push origin [feature-branch-name]
+   npm start
    ```
 
-4. Visit your branch's compare page to create a pull request:
-   [Compare Page](https://github.com/cainethings/compass/compare/[feature-branch-name]?expand=1)
+The webpack dev server serves the app in development mode. A production build can be created with:
 
-5. Self-merge your pull request into `dev`.
+```bash
+npm run build
+```
 
-### Merging to Staging
-1. Pull the latest changes:
-   ```bash
-   git checkout dev
-   git pull origin dev
-   git checkout stage-compass
-   git pull origin stage-compass
-   ```
+## Configuration
 
-2. Build the project:
-   ```bash
-   npm run build
-   ```
+`src/config.json` defines the current environment and the base URLs for the API:
 
-3. Merge the `dev` branch into `stage-compass`:
-   ```bash
-   git merge -X theirs dev
-   git push origin stage-compass
-   ```
+```json
+{
+  "environment": "production",
+  "apiBaseUrls": {
+    "production": "https://api-worknest.cainethings.com",
+    "staging": "https://stage-api-worknest.cainethings.com",
+    "local": "http://localhost:8888"
+  }
+}
+```
 
-## Useful Links
-- **Project Status:** [Asana Link](https://app.asana.com/0/1209147593920669/1209147802318551)
-- **Live URL:** https://compass.cainethings.com
-- **Stage URL:** https://stage-compass.cainethings.com
+The helper `getApiBaseUrl` in `src/api.js` chooses the URL based on the hostname. The production app runs at `https://worknest.cainethings.com`, staging at `https://stage-worknest.cainethings.com`, and local development at `http://localhost:3001`.
 
-## Simplified Git Process
-To streamline the workflow, follow these steps:
-1. Always start by pulling the latest changes from `dev`:
-   ```bash
-   git checkout dev
-   git pull origin dev
-   ```
-2. Create a feature branch:
-   ```bash
-   git checkout -b [feature-branch-name]
-   ```
-3. After making changes, commit and push:
-   ```bash
-   git add .
-   git commit -m "commit message"
-   git push origin [feature-branch-name]
-   ```
-4. Create a pull request from your feature branch to `dev` and self-merge.
-5. If staging is required, merge `dev` into `stage-compass` and test thoroughly.
+## Directory Structure
 
-## Contribution Guidelines
-1. Always create a feature branch for changes. Avoid pushing directly to `dev` or `stage-compass`.
-2. Ensure your code is properly formatted and follows the project's coding standards.
-3. Before creating a pull request, ensure:
-   - Code has been tested locally.
-   - There are no conflicts with the `dev` branch.
-4. Include meaningful commit messages describing the changes made.
+- `src/` – React components and pages
+- `src/pages/account/` – login, register and manual admin login
+- `src/pages/home/` – payslip list and PDF download logic
+- `public/` – HTML template used by Webpack
 
-## Maintaining Code Sanity
-- **Consistent Naming:** Use clear and consistent branch and file naming conventions.
-- **Testing:** Test all changes thoroughly in the `stage-compass` environment before merging to `publish`.
-- **Documentation:** Update relevant documentation or comments when introducing new functionality.
-- **Peer Review:** Perform code reviews for significant changes before merging.
+## Related API Endpoints
 
-By following these guidelines, we ensure smooth collaboration and maintain the quality and sanity of the codebase.
+The WorkNest API provides the following PHP endpoints:
+
+- `register.php` – create a user
+- `login.php` – authenticate a user
+- `getAvailableMonths.php` – list months with payroll data
+- `getPayslip.php` – retrieve a single payslip record
+
+All API calls are `POST` requests with JSON bodies. CORS is allowed only from the staging and production front-end domains.
 
 ---
 
-Feel free to reach out to the team lead or project manager for any clarifications or issues.
-
+This project is maintained alongside the WorkNest API repository. Contributions are welcome.

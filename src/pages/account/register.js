@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '../../layouts/primary';
 import './login.scss';
 import pageContent from './content.json';
+import { getApiBaseUrl } from '../../api';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch('https://api-worknest.cainethings.com/register.php', {
+      const response = await fetch(`${getApiBaseUrl()}/register.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
