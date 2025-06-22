@@ -45,9 +45,13 @@ const Register = () => {
 
       const result = await response.json();
 
-      if (result.success) {
-        alert('Registration successful. Please log in.');
-        navigate('/');
+      if (result.status === 'success') {
+        localStorage.setItem('isLoggedIn', true);
+        localStorage.setItem(
+          'phoneNumber',
+          result.user?.phone_number || phoneNumber
+        );
+        navigate('/home');
       } else {
         alert(result.message || 'Registration failed');
       }
