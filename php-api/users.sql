@@ -1,0 +1,6 @@
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  phone_number VARCHAR(20) NOT NULL UNIQUE,
+  employee_id VARCHAR(50) NOT NULL,
+  password_hash VARCHAR(255) NOT NULL
+);
