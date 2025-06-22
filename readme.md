@@ -64,31 +64,4 @@ All API calls are `POST` requests with JSON bodies. CORS is allowed only from th
 
 ---
 
-This project is maintained alongside the WorkNest API repository. Contributions are welcome.
-
-## PHP API (Local)
-
-A minimal PHP backend is included in the `php-api/` directory. It uses MySQL and monthly CSV files.
-
-### Setup
-
-1. Create a MySQL database and run `php-api/users.sql` to create the `users` table.
-2. Copy `php-api/.env.example` to `php-api/.env` and update the credentials.
-3. Place monthly payroll CSV files inside `php-api/data/` (sample `April-25.csv` is provided).
-4. Start the API using PHP's built-in server:
-   ```bash
-   php -S localhost:8888 index.php -t php-api
-   ```
-
-### Endpoints
-
-- `POST /register` – register a user
-- `POST /login` – authenticate and start a session
-- `POST /getAvailableMonths` – list available CSV files
-- `POST /getPayslip` – fetch a payslip by month and phone number
-
-### Running Together
-
-For local development set `environment` to `local` in `src/config.json` so the React app calls `http://localhost:8888`.
-
-Start the API and then in another terminal run `npm start` to launch the React app. Register or log in with a phone number found in one of the CSV files. After logging in, the home page shows a dropdown of months and allows downloading a PDF payslip.
+This project is maintained alongside the [WorkNest API](https://github.com/cainethings/api-worknest) repository. The PHP API is no longer bundled with this front-end; clone the API separately if you need a local backend.
