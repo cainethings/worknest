@@ -44,7 +44,11 @@ const Login = () => {
 
       if (result.success) {
         localStorage.setItem('isLoggedIn', true);
-        localStorage.setItem('phoneNumber', phoneNumber);
+        // Store the phone number returned by the API to ensure accuracy
+        localStorage.setItem(
+          'phoneNumber',
+          result.user?.phone_number || phoneNumber
+        );
         navigate('/home');
       } else {
         alert(result.message || 'Login failed');
