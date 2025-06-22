@@ -42,7 +42,7 @@ const Login = () => {
 
       const result = await response.json();
 
-      if (result.success) {
+      if (result.status === "success") {
         localStorage.setItem('isLoggedIn', true);
         // Store the phone number returned by the API to ensure accuracy
         localStorage.setItem(
