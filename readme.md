@@ -57,8 +57,7 @@ The WorkNest API provides the following PHP endpoints:
 
 - `register.php` – create a user
 - `login.php` – authenticate a user
-- `getAvailableMonths.php` – list months with payroll data
-- `getPayslip.php` – retrieve a single payslip record
+- `records.php` – return available months along with their payslip data
 
 All API calls are `POST` requests with JSON bodies. CORS is allowed only from the staging and production front-end domains.
 
