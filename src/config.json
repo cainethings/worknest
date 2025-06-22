@@ -1,5 +1,5 @@
 {
-  "environment": "production",
+  "environment": "local",
   "apiBaseUrls": {
     "production": "https://api-worknest.cainethings.com",
     "staging": "https://stage-api-worknest.cainethings.com",
