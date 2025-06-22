@@ -30,7 +30,7 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch(`${getApiBaseUrl()}/register.php`, {
+      const response = await fetch(`${getApiBaseUrl()}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
