@@ -16,6 +16,7 @@ const Home = () => {
   const [selectedMonth, setSelectedMonth] = useState('');
   const [payslipData, setPayslipData] = useState(null);
   const [months, setMonths] = useState([]);
+  const [records, setRecords] = useState({});
   const [error, setError] = useState(null);
   const payslipRef = useRef();
 
@@ -36,10 +37,9 @@ const Home = () => {
       return;
     }
 
-    const getList = `${getApiBaseUrl()}/getAvailableMonths.php`;
-    const fetchMonths = async () => {
+    const fetchRecords = async () => {
       try {
-        const response = await fetch(getList, {
+        const response = await fetch(`${getApiBaseUrl()}/records`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -49,53 +49,46 @@ const Home = () => {
         const data = await response.json();
 
         if (data.success) {
-          setMonths(data.files);
+          const recs = data.data || {};
+          setRecords(recs);
+          setMonths(Object.keys(recs));
         } else {
           setError(data.message || 'No records found for this phone number');
           setMonths([]);
+          setRecords({});
         }
       } catch (err) {
-        setError('Error fetching months: ' + err.message);
+        setError('Error fetching records: ' + err.message);
         setMonths([]);
+        setRecords({});
       }
     };
 
-    fetchMonths();
+    fetchRecords();
   }, [navigate]);
 
   const handleDownload = () => {
-    const getPaySlip = `${getApiBaseUrl()}/getPayslip.php`;
-    const phoneNumber = localStorage.getItem('phoneNumber');
-    fetch(getPaySlip, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        month: selectedMonth,
-        phone: phoneNumber,
-      }),
-    }).then(async (response) => {
-      const data = await response.json();
-      const paySlipDataMain = data.data;
-      setPayslipData(paySlipDataMain);
-      setTimeout(() => {
-        if (!data.success) {
-          alert('Error: ' + data.message);
-        }
-        html2pdf().set({
+    const dataForMonth = records[selectedMonth];
+    if (!dataForMonth) {
+      alert('No data available for the selected month');
+      return;
+    }
+    setPayslipData(dataForMonth);
+    setTimeout(() => {
+      html2pdf()
+        .set({
           margin: 1,
-          filename: `Payslip-${selectedMonth}.pdf`,
+          filename: `Payslip-${selectedMonth.replace('.csv', '')}.pdf`,
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: { scale: 2 },
           jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        }).from(payslipRef.current).save().then(() => {
+        })
+        .from(payslipRef.current)
+        .save()
+        .then(() => {
           alert('Download completed successfully!');
         });
-      }, 100);
-    }).catch((error) => {
-      console.error('Fetch error:', error);
-    });
+    }, 100);
   };
 
   const getMonthsFromStart = () => {
@@ -185,7 +178,7 @@ const Home = () => {
               // Extract the month-year part from the filename by removing '.csv'
               const monthLabel = fileName.replace('.csv', '');
               return (
-                <option key={fileName} value={monthLabel}>
+                <option key={fileName} value={fileName}>
                   {monthLabel}
                 </option>
               );
@@ -203,7 +196,10 @@ const Home = () => {
         {payslipData && (
           <div style={{ display: 'none' }}>
             <div ref={payslipRef} className='payslip-preview'>
-              <HiddenData payslipData={payslipData} selectedMonth={selectedMonth} />
+              <HiddenData
+                payslipData={payslipData}
+                selectedMonth={selectedMonth.replace('.csv', '')}
+              />
               <p style={{ marginTop: "30px" }}><b>Note:</b> This is system generated payslip and does not require signature</p>
             </div>
           </div>
