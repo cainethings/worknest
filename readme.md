@@ -4,7 +4,7 @@ WorkNest is a simple payroll viewer built with React. It allows employees to reg
 
 ## Features
 
-- **User Registration** – create a login using phone number and password.
+- **User Registration** – create a login using phone number, employee ID and password.
 - **Login** – authenticate via `/login.php` and store a session.
 - **Payslip Viewer** – list available months and fetch payslip data.
 - **PDF Download** – convert the payslip table to a PDF using `html2pdf.js`.
