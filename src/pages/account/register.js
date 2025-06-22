@@ -7,7 +7,7 @@ import { getApiBaseUrl } from '../../api';
 
 const Register = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
+  const [employeeId, setEmployeeId] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
@@ -24,7 +24,7 @@ const Register = () => {
       return;
     }
 
-    if (!name || !password) {
+    if (!employeeId || !password) {
       alert('All fields are required.');
       return;
     }
@@ -37,7 +37,7 @@ const Register = () => {
         },
         credentials: 'include',
         body: JSON.stringify({
-          name: name,
+          employee_id: employeeId,
           phone: phoneNumber,
           password: password,
         }),
@@ -64,13 +64,13 @@ const Register = () => {
         <p className='instruction'>Create a new account.</p>
         <form onSubmit={handleRegister}>
           <div className='custom-field'>
-            <p className='field-label'>Name</p>
+            <p className='field-label'>Employee ID</p>
             <input
               type='text'
-              name='name'
-              placeholder='Full Name'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              name='employeeId'
+              placeholder='12345'
+              value={employeeId}
+              onChange={(e) => setEmployeeId(e.target.value)}
             />
           </div>
           <div className='custom-field'>
