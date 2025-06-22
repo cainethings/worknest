@@ -68,6 +68,14 @@
         table {
             margin-top: 50px;
 
+            /* Ensure borders are visible when generating PDF */
+            border-collapse: collapse;
+
+            th,
+            td {
+                border: 1px solid #000;
+            }
+
             tr {
                 th {
                     text-align: center;
