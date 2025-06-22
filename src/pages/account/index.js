@@ -28,7 +28,7 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch(`${getApiBaseUrl()}/login.php`, {
+      const response = await fetch(`${getApiBaseUrl()}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

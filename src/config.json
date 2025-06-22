@@ -3,6 +3,6 @@
   "apiBaseUrls": {
     "production": "https://api-worknest.cainethings.com",
     "staging": "https://stage-api-worknest.cainethings.com",
-    "local": "http://localhost:8888"
+    "local": "http://localhost:8000"
   }
 }
