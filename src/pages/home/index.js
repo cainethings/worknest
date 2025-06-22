@@ -48,7 +48,7 @@ const Home = () => {
         });
         const data = await response.json();
 
-        if (data.success) {
+        if (data.status === 'success') {
           const recs = data.data || {};
           setRecords(recs);
           setMonths(Object.keys(recs));
