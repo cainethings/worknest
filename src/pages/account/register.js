@@ -9,7 +9,8 @@ const Register = () => {
   const navigate = useNavigate();
   const [employeeId, setEmployeeId] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
+  const [pin, setPin] = useState('');
+  const [confirmPin, setConfirmPin] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('isLoggedIn');
@@ -24,8 +25,15 @@ const Register = () => {
       return;
     }
 
-    if (!employeeId || !password) {
-      alert('All fields are required.');
+    if (
+      !employeeId ||
+      pin.length !== 4 ||
+      !/^\d{4}$/.test(pin) ||
+      confirmPin !== pin
+    ) {
+      alert(
+        'All fields are required, PIN must be exactly 4 digits and both PINs must match.'
+      );
       return;
     }
 
@@ -39,7 +47,7 @@ const Register = () => {
         body: JSON.stringify({
           employee_id: employeeId,
           phone: phoneNumber,
-          password: password,
+          pin: pin,
         }),
       });
 
@@ -89,13 +97,25 @@ const Register = () => {
             />
           </div>
           <div className='custom-field'>
-            <p className='field-label'>Password</p>
+            <p className='field-label'>PIN</p>
             <input
               type='password'
-              name='password'
-              placeholder='Enter password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name='pin'
+              placeholder='1234'
+              maxLength='4'
+              value={pin}
+              onChange={(e) => setPin(e.target.value.replace(/\D/, ''))}
+            />
+          </div>
+          <div className='custom-field'>
+            <p className='field-label'>Confirm PIN</p>
+            <input
+              type='password'
+              name='confirmPin'
+              placeholder='1234'
+              maxLength='4'
+              value={confirmPin}
+              onChange={(e) => setConfirmPin(e.target.value.replace(/\D/, ''))}
             />
           </div>
           <button type='submit'>Register</button>

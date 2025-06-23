@@ -4,12 +4,12 @@ import Layout from '../../layouts/primary';
 import './login.scss';
 import pageContent from './content.json';
 
-const SHA256_HASH = '8cceec2c501bb9f97584fa5b9f5b3bd5f7aef4985dade3827736f00d7c448b90'; // hash for "iamadmin123"
+const SHA256_HASH = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'; // hash for "1234"
 
 const ManualLogin = () => {
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
+  const [pin, setPin] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('isLoggedIn');
@@ -33,10 +33,10 @@ const ManualLogin = () => {
       return;
     }
 
-    const hashedInput = await hashPassword(password);
+    const hashedInput = await hashPassword(pin);
 
     if (hashedInput !== SHA256_HASH) {
-      alert('Incorrect password. Access denied.');
+      alert('Incorrect PIN. Access denied.');
       return;
     }
 
@@ -52,7 +52,7 @@ const ManualLogin = () => {
     <Layout pageContent={pageContent}>
       <section className='hero'>
         <h1 className='section-title'>Manual Login (Testing)</h1>
-        <p className='instruction'>Enter a phone number and admin password to login manually.</p>
+        <p className='instruction'>Enter a phone number and admin PIN to login manually.</p>
 
         <form onSubmit={handleManualLogin}>
           <div className='custom-field'>
@@ -68,13 +68,14 @@ const ManualLogin = () => {
           </div>
 
           <div className='custom-field'>
-            <p className='field-label'>Admin Password</p>
+            <p className='field-label'>Admin PIN</p>
             <input
               type='password'
-              name='password'
-              placeholder='Enter password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name='pin'
+              placeholder='1234'
+              maxLength='4'
+              value={pin}
+              onChange={(e) => setPin(e.target.value.replace(/\D/, ''))}
             />
           </div>
 
@@ -82,7 +83,7 @@ const ManualLogin = () => {
         </form>
 
         <p className='disclaimer warning'>
-          ⚠️ This manual login is protected by a static password. For testing use only.
+          ⚠️ This manual login is protected by a static PIN. For testing use only.
         </p>
       </section>
     </Layout>
