@@ -8,7 +8,7 @@ import { getApiBaseUrl } from '../../api';
 const Login = () => {
   const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
+  const [pin, setPin] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('isLoggedIn');
@@ -22,8 +22,8 @@ const Login = () => {
       alert('Enter a valid 10-digit phone number.');
       return;
     }
-    if (!password) {
-      alert('Password cannot be empty.');
+    if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
+      alert('PIN must be exactly 4 digits.');
       return;
     }
 
@@ -36,7 +36,7 @@ const Login = () => {
         credentials: 'include',
         body: JSON.stringify({
           phone: phoneNumber,
-          password: password,
+          pin: pin,
         }),
       });
 
@@ -63,7 +63,7 @@ const Login = () => {
     <Layout pageContent={pageContent}>
       <section className='hero'>
         <h1 className='section-title'>Login</h1>
-        <p className='instruction'>Enter your phone number and password to login.</p>
+        <p className='instruction'>Enter your phone number and 4‑digit PIN to login.</p>
         <form onSubmit={handleLogin}>
           <div className='custom-field'>
             <p className='field-label'>Phone Number</p>
@@ -77,13 +77,14 @@ const Login = () => {
             />
           </div>
           <div className='custom-field'>
-            <p className='field-label'>Password</p>
+            <p className='field-label'>PIN</p>
             <input
               type='password'
-              name='password'
-              placeholder='Enter password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name='pin'
+              placeholder='1234'
+              maxLength='4'
+              value={pin}
+              onChange={(e) => setPin(e.target.value.replace(/\D/, ''))}
             />
           </div>
           <button type='submit'>Login</button>
