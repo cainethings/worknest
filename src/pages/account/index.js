@@ -72,6 +72,7 @@ const Login = () => {
               name='phoneNumber'
               placeholder='Enter phone number'
               maxLength='10'
+              inputMode='numeric'
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/, ''))}
             />
@@ -83,6 +84,7 @@ const Login = () => {
               name='pin'
               placeholder='Enter 4-digit PIN'
               maxLength='4'
+              inputMode='numeric'
               value={pin}
               onChange={(e) => setPin(e.target.value.replace(/\D/, ''))}
             />
