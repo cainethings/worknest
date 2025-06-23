@@ -60,7 +60,7 @@ const ManualLogin = () => {
             <input
               type='tel'
               name='phoneNumber'
-              placeholder='9876543210'
+              placeholder='Enter phone number'
               maxLength='10'
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/, ''))}
@@ -72,7 +72,7 @@ const ManualLogin = () => {
             <input
               type='password'
               name='pin'
-              placeholder='1234'
+              placeholder='Enter admin PIN'
               maxLength='4'
               value={pin}
               onChange={(e) => setPin(e.target.value.replace(/\D/, ''))}
