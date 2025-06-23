@@ -92,6 +92,7 @@ const Register = () => {
               name='phoneNumber'
               placeholder='Enter phone number'
               maxLength='10'
+              inputMode='numeric'
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/, ''))}
             />
@@ -103,6 +104,7 @@ const Register = () => {
               name='pin'
               placeholder='Create 4-digit PIN'
               maxLength='4'
+              inputMode='numeric'
               value={pin}
               onChange={(e) => setPin(e.target.value.replace(/\D/, ''))}
             />
@@ -114,6 +116,7 @@ const Register = () => {
               name='confirmPin'
               placeholder='Repeat PIN'
               maxLength='4'
+              inputMode='numeric'
               value={confirmPin}
               onChange={(e) => setConfirmPin(e.target.value.replace(/\D/, ''))}
             />

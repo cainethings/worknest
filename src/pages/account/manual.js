@@ -62,6 +62,7 @@ const ManualLogin = () => {
               name='phoneNumber'
               placeholder='Enter phone number'
               maxLength='10'
+              inputMode='numeric'
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/, ''))}
             />
@@ -74,6 +75,7 @@ const ManualLogin = () => {
               name='pin'
               placeholder='Enter admin PIN'
               maxLength='4'
+              inputMode='numeric'
               value={pin}
               onChange={(e) => setPin(e.target.value.replace(/\D/, ''))}
             />
