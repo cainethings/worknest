@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/index.js', // Entry point for the application
   output: {
     path: path.resolve(__dirname, 'dist'), // Output directory
-    filename: 'bundle.js', // Output file name
+    filename: '[contenthash].js', // Output file name
     clean: true, // Clean output directory before each build
   },
   module: {
@@ -74,11 +74,11 @@ module.exports = {
   devServer: {
     static: path.join(__dirname, 'dist'), // Serve files from 'dist' folder
     compress: true, // Enable gzip compression
-    port: 3000, // Server port
+    port: 3001, // Server port
     historyApiFallback: true, // Support client-side routing
   },
   resolve: {
     extensions: ['.js', '.jsx'], // Resolve these file extensions automatically
   },
-  mode: 'development', // Development mode
+  mode: 'production', // Development mode
 };
