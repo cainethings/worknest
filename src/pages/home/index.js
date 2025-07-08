@@ -21,7 +21,7 @@ const Home = () => {
 
   const getApiBaseUrl = () => {
     if (window.location.hostname === 'localhost') {
-      return 'http://localhost:8888';
+      return 'http://localhost:8000';
     } else {
       return 'https://api-worknest.cainethings.com';
     }
