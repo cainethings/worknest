@@ -119,7 +119,7 @@ const HiddenData = (props) => {
                         <td style={{ padding: "5px" }}>{payslipData["F/D"] === "D" ? "H Allowance" : "Proj Allowance"}</td>
                         <td style={{ padding: "5px", textAlign: 'right' }}>{payslipData["F/D"] === "D" ? payslipData["H Allowance"] === "" ? "0.00" : payslipData["H Allowance"] : payslipData["Proj Allowance"] === "" ? "0.00" : payslipData["Proj Allowance"]}</td>
                         <td style={{ padding: "5px" }}>Advance</td>
-                        <td style={{ padding: "5px", textAlign: 'right' }}>{payslipData["Advance"] === "" ? "0.00" : formatCurrency(parseFloat(payslipData["Advance"]).toFixed(2))}</td>
+                        <td style={{ padding: "5px", textAlign: 'right' }}>{payslipData["Advance"]}</td>
                     </tr>
                     <tr>
                         <td style={{ padding: "5px" }}>{payslipData["F/D"] === "S" ? "SCA / DA" : payslipData["F/D"] === "D" ? "S Allowance" : "V Allowance"}</td>
