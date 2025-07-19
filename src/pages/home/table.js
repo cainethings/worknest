@@ -80,7 +80,7 @@ const HiddenData = (props) => {
                     <tr>
                         <td style={{ padding: "5px" }}>D.O.J</td>
                         <td style={{ padding: "5px", fontWeight: "bold" }} colSpan={3}>
-                            {excelSerialToDateString(payslipData["D.O.J"])}
+                            {payslipData["D.O.J"]}
                         </td>
                     </tr>
                     <tr>
